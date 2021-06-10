@@ -5,29 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>obra4</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+   
+    <script> src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"</script>
+    <script> src="https://rawgit.com/mayognaise/aframe-gif-component/master/dist/aframe-gif-component.min.js"</script>
 
+    <script>
+        AFRAME.registerComponent("model-opacity", {
+  schema: {
+    opacity: { type: "number", default: 0.5 }
+  },
+  init: function() {
+    this.el.addEventListener("model-loaded", this.update.bind(this));
+  },
+  update: function() {
+    var mesh = this.el.getObject3D("mesh");
+    var data = this.data;
+    if (!mesh) {
+      return;
+    }
+    mesh.traverse(function(node) {
+      if (node.isMesh) {
+        console.log(node);
+        node.material.opacity = data.opacity;
+        node.material.transparent = data.opacity < 1.0;
+        node.material.needsUpdate = true;
+      }
+    });
+  }
+});
+
+    </script>
+
+<a-assets>
+    <a-entity id="Compgif1" src="./Compgif1.gif"></a-entity> 
+    <video id="video" autoplay loop="true" src="./comp1.mp4"></video>
+
+</a-assets>
+
+    
 </head>
 <body>
     <a-scene>
-        
+
+        <a-video src="#video" width="20" height="9" position="-0.066 4.381 -14.006"></a-video>
+        <a-video src="#video" rotation="0 90 0" width="20" height="9" position="-10.094 4.381 -4.016"></a-video>
+        <a-video src="#video" rotation="0 -90 0" width="20" height="9" position="9.968 4.381 -4.016"></a-video>
+        <a-video src="#video" rotation="0 180 0" width="20" height="9" position="-0.086 4.401 5.926"></a-video>
         <a-sphere position="0 9.024 -3.057" radius="1.25" color="#EF2D5E"></a-sphere>
         <a-plane position="0 -0.092 -4" rotation="-90 0 0" width="20" height="20" color="#bd84b8"></a-plane>
         <a-sky color="#ECECEC"></a-sky>
         
-        <a-assets>
-            
-            <video id="video" autoplay loop="true" src="./comp1.mp4"></video>
-            <video id="video" autoplay loop="true" src="./comp1.mp4"></video>
-            <video id="video" autoplay loop="true" src="./comp1.mp4"></video>
-            <video id="video" autoplay loop="true" src="./comp1.mp4"></video>
-        </a-assets>
+       
 
-            <a-video src="#video"  width="20" height="9" position="-0.066 4.381 -14.006" meta name="apple-mobile-web-app-capable" content="yes"></a-video>
-            <a-video src="#video" rotation="0 90 0" width="20" height="9" position="-10.094 4.381 -4.016" meta name="apple-mobile-web-app-capable" content="yes"></a-video>
-            <a-video src="#video" rotation="0 -90 0" width="20" height="9" position="9.968 4.381 -4.016" meta name="apple-mobile-web-app-capable" content="yes"></a-video>
-            <a-video src="#video" rotation="0 180 0" width="20" height="9" position="-0.086 4.401 5.926" meta name="apple-mobile-web-app-capable" content="yes"></a-video>
-            
-      </a-scene>
+        <a-entity position="0  2.398 0" geometry=“primitive:plane;width:1;height:1;” material=“shader:gif;src:url(https://media.giphy.com/media/CVsKvUNQSbFho3r4ir/giphy.gif);transparent:true;alphaTest:0.5;side:double”></a-entity>
+
+       
+        </a-scene>
 
 </body>
 </html>
